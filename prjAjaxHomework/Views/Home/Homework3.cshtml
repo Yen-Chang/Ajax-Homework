@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewData["Title"] = "Homework3";
+}
+
+<h1>Homework3</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            @*<form action="~/api/getDemo" method="post">*@
+            <form id="form1">
+                <div class="mb-3">
+                    <label for="userName" class="form-label">userName</label>
+                    <input type="text" class="form-control" id="userName" name="Name">
+                </div>
+                <div class="mb-3">
+                    <label for="userEmail" class="form-label">userEmail</label>
+                    <input type="text" class="form-control" id="userEmail" name="Email">
+                </div>
+
+                <div class="mb-3">
+                    <label for="userAge" class="form-label">userAge</label>
+                    <input type="number" class="form-control" id="userAge" name="Age">
+                </div>
+
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Photo</label>
+                    <input class="form-control" type="file" id="formFile" name="file">
+                </div>
+
+                <button id="button1" type="submit" class="btn btn-primary">送出</button>
+            </form>
+            <div class="alert alert-info" id="div1"></div>
+        </div>
+    </div>
+</div>
+
+
+@section Styles{
+    <style>
+
+    </style>
+}
+
+@section Scripts{
+    <script>
+
+        const txtAcount = document.querySelector('#userName');
+
+        txtAcount.addEventListener('blur', () => {
+
+            const xhr = new XMLHttpRequest();
+
+            xhr.open('GET', `/api/CheckAcount?name=${txtAcount.value}`);
+            xhr.send();
+            console.log(txtAcount.value)
+
+            xhr.addEventListener('load', () => {
+
+                const datas = JSON.parse(xhr.responseText);
+                console.log(datas)
+
+                if (datas) {
+                    document.querySelector('#div1').innerHTML = "此帳號存在"
+                }
+                else {
+
+                    return null;
+                }
+
+            })
+
+        })
+    </script>
+}
+
+
+

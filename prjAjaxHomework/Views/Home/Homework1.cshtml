@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewData["Title"] = "Homework1";
+}
+
+<h1>Homework1</h1>
+
+<table id="empTable" class="table table-bordered table-hover table-striped">
+    <thead>
+        <tr>
+            <th>姓名</th>
+            <th>年資</th>
+            <th>薪水</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+@section Scripts{
+    <script>      
+
+        $(document).ready(()=> {
+            const emp = {
+                "employees": [
+                    { "name": "Tom", "workYears": 3, "salary": 35000 },
+                    { "name": "Jack", "workYears": 5, "salary": 40000 },
+                    { "name": "Mary", "workYears": 7, "salary": 45000 }
+                ]
+            };
+        
+
+        const datas = emp.employees.map(employee=>{
+            const {name,workYears,salary} = employee
+            return(
+            `<tr>
+                <td>${name}</td>
+                <td>${workYears}</td>
+                <td>${salary}</td>               
+            </tr>`
+            );       
+        });
+
+        $("#empTable tbody").append(datas.join(''));       
+        })                     
+    </script>
+}

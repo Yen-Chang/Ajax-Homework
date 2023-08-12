@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewData["Title"] = "Homework4";
+}
+
+<h1>Homework4</h1>
+
+作業四 const cities = ["台北市","新北市","桃園市","台中市", "台南市","高雄市"]
+將cities城市資料放進select標籤中
+使用者選取了某個城市後，將選到的城市顯示在span標籤中
+
+
+<select id="selectCity">
+    <option value="嘉義市">嘉義市</option>
+</select>
+<select id="selectSite">
+    <option value="區域">區域</option>
+</select>
+<select id="selectRoad">
+    <option value="03">03</option>
+</select>
+
+@section Scripts{
+    <script>
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', '/api/cities');
+        xhr.send();
+        xhr.addEventListener('load', () => {
+            const datas = JSON.parse(xhr.responseText);
+            var cities = datas.map(city => {
+                return (`<option value="${city}">${city}</option>`)
+            })
+            document.querySelector('#selectCity').innerHTML = cities.join("");
+        })
+    </script>
+
+    <script>
+
+        const cbx = document.querySelector('#selectCity');
+
+        cbx.addEventListener('change', () => {
+
+            const xhr1 = new XMLHttpRequest();
+
+            console.log(cbx.value)
+            xhr1.open('GET', `/api/Districts?city=${cbx.value}`);
+            xhr1.send();
+
+            xhr1.addEventListener('load', () => {
+
+                const datas = JSON.parse(xhr1.responseText);
+                const areas = datas.map(cityid => {
+                    return (`<option value="${cityid}">${cityid}</option>`)
+
+                })
+
+                document.querySelector('#selectSite').innerHTML = areas.join("");
+                console.log(xhr1);
+
+            })
+
+        })
+
+    </script>
+    <script>
+
+        const cbxarea = document.querySelector('#selectSite');
+
+        cbxarea.addEventListener('change', () => {
+
+            const xhr2 = new XMLHttpRequest();
+            xhr2.open('GET', `/api/Roads?districts=${cbxarea.value}`);
+            xhr2.send();
+            xhr2.addEventListener('load', () => {
+
+                const datas = JSON.parse(xhr2.responseText);
+                const road = datas.map(roads => {
+                    return (`<option value="${roads}">${roads}</option>`)
+
+                })
+
+                document.querySelector('#selectRoad').innerHTML = road.join("");
+            })
+
+        })
+    </script>
+}
+
+@section Styles{
+
+}
